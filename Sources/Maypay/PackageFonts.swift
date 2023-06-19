@@ -12,7 +12,7 @@ import CoreText
 public struct PackageFonts {
     public static func registerFonts() {
         // Ottieni il percorso del bundle del tuo package
-        guard let resourcesURL = Bundle.main.resourceURL?.appendingPathComponent("YourPackageBundle.bundle") else {
+        guard let resourcesURL = Bundle.main.resourceURL?.appendingPathComponent("Resources") else {
             fatalError("Bundle del package non trovato")
         }
 
