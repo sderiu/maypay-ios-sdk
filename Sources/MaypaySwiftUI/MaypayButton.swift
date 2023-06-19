@@ -17,6 +17,7 @@ public struct MaypayButton: View {
         self.requestId = requestId
         
         registerFonts()
+        
     }
     
     var requestId: String

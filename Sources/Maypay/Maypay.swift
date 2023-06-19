@@ -33,29 +33,22 @@ public func openMaypay(requestId: String) {
 }
 
 public func registerFonts() {
-    let fontFolderName = "Resources" // Il nome della cartella che contiene i font
+    
+    registerFont(bundle: .module, fontName: "MavenPro-Medium", fontExtension: "ttf")
+    registerFont(bundle: .module, fontName: "MavenPro-Regular", fontExtension: "ttf")
+    registerFont(bundle: .module, fontName: "Giorgio", fontExtension: "ttf")
 
-    guard let fontFolderURL = Bundle.module.url(forResource: fontFolderName, withExtension: nil) else {
-        fatalError("Impossibile trovare la cartella dei font nel bundle del modulo \(Bundle.module.bundleURL)")
+}
+
+fileprivate func registerFont(bundle: Bundle, fontName: String, fontExtension: String) {
+    
+    guard let fontURL = bundle.url(forResource: fontName, withExtension: fontExtension),
+          let fontDataProvider = CGDataProvider(url: fontURL as CFURL),
+          let font = CGFont(fontDataProvider) else {
+        fatalError("Couldn't create font from data")
     }
     
-    let fontFileURLs = try? FileManager.default.contentsOfDirectory(at: fontFolderURL, includingPropertiesForKeys: nil)
+    var error: Unmanaged<CFError>?
     
-    if let fontFileURLs = fontFileURLs {
-        for fontFileURL in fontFileURLs {
-            guard let fontData = try? Data(contentsOf: fontFileURL) else {
-                fatalError("Impossibile caricare i dati del font: \(fontFileURL.lastPathComponent)")
-            }
-            
-            guard let provider = CGDataProvider(data: fontData as CFData) else {
-                fatalError("Impossibile creare il provider dei dati del font: \(fontFileURL.lastPathComponent)")
-            }
-            
-            guard let font = CGFont(provider) else {
-                fatalError("Impossibile creare il font: \(fontFileURL.lastPathComponent)")
-            }
-            
-            CTFontManagerRegisterGraphicsFont(font, nil)
-        }
-    }
+    CTFontManagerRegisterGraphicsFont(font, &error)
 }
