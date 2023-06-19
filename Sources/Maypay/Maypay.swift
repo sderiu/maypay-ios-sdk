@@ -36,7 +36,7 @@ public func registerFonts(){
     let fontFolderName = "Resources" // Il nome della cartella che contiene i font
     
     guard let fontFolderURL = Bundle.main.url(forResource: fontFolderName, withExtension: nil) else {
-        fatalError("Impossibile trovare la cartella dei font")
+        fatalError("Impossibile trovare la cartella dei font \(Bundle.main.bundleURL)")
     }
     
     
