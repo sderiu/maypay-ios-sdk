@@ -25,7 +25,7 @@ let package = Package(
     targets: [
         .target(
             name: "Maypay",
-            dependencies: []
+            dependencies: ["MaypaySwiftUI", "MaypayUIKit"]
         ),
         .target(
             name: "MaypaySwiftUI",
