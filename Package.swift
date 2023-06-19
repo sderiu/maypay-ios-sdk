@@ -26,23 +26,15 @@ let package = Package(
         .target(
             name: "Maypay",
             dependencies: [],
-            resources: [
-                .process("Resources")
-            ]
+            resources: [.process("Resources")]
         ),
         .target(
             name: "MaypaySwiftUI",
-            dependencies: ["Maypay"],
-            resources: [
-                .process("Resources")
-            ]
+            dependencies: ["Maypay"]
         ),
         .target(
             name: "MaypayUIKit",
-            dependencies: ["Maypay"],
-            resources: [
-                .process("Resources")
-            ]
+            dependencies: ["Maypay"]
         ),
         .testTarget(
             name: "MaypayTests",
