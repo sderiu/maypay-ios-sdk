@@ -21,8 +21,6 @@ public class MaypayButton: UIButton {
     required init?(coder: NSCoder) {
         self.requestId = ""
         super.init(coder: coder)
-        commonInit()
-        registerFonts()
     }
     
     var requestId: String
