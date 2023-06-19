@@ -16,14 +16,6 @@ public struct MaypayButton: View {
         
         self.requestId = requestId
         
-        do {
-            try registerFont(named: "MavenPro-Regular")
-            try registerFont(named: "MavenPro-Medium")
-            try registerFont(named: "Giorgio")
-        } catch {
-            let reason = error.localizedDescription
-            fatalError("Failed to register font: \(reason)")
-        }
     }
     
     var requestId: String

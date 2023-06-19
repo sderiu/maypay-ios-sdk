@@ -27,21 +27,21 @@ let package = Package(
             name: "Maypay",
             dependencies: [],
             resources: [
-                .process("Resources/Fonts")
+                .process("Resources")
             ]
         ),
         .target(
             name: "MaypaySwiftUI",
             dependencies: ["Maypay"],
             resources: [
-                .process("Resources/Fonts")
+                .process("Resources")
             ]
         ),
         .target(
             name: "MaypayUIKit",
             dependencies: ["Maypay"],
             resources: [
-                .process("Resources/Fonts")
+                .process("Resources")
             ]
         ),
         .testTarget(
