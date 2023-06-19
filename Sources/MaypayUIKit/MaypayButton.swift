@@ -14,13 +14,13 @@ public class MaypayButton: UIButton {
     public init(requestId: String) {
         self.requestId = requestId
         super.init(frame: .zero)
-        commonInit()
-        registerFonts()
     }
     
     required init?(coder: NSCoder) {
         self.requestId = ""
         super.init(coder: coder)
+        commonInit()
+        registerFonts()
     }
     
     var requestId: String
