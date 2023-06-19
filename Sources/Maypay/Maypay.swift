@@ -3,6 +3,8 @@
 import Foundation
 import SwiftUI
 import UIKit
+import CoreGraphics
+import CoreText
 
 public func canOpenMaypay() -> Bool {
     
@@ -28,4 +30,34 @@ public func openMaypay(requestId: String) {
             }
         }
     }
+}
+
+public func registerFonts(){
+    let fontFolderName = "Resources" // Il nome della cartella che contiene i font
+    
+    guard let fontFolderURL = Bundle.main.url(forResource: fontFolderName, withExtension: nil) else {
+        fatalError("Impossibile trovare la cartella dei font")
+    }
+    
+    
+    let fontFileURLs = try? FileManager.default.contentsOfDirectory(at: fontFolderURL, includingPropertiesForKeys: nil)
+    
+    if let fontFileURLs = fontFileURLs{
+        for fontFileURL in fontFileURLs {
+            guard let fontData = try? Data(contentsOf: fontFileURL) else {
+                fatalError("Impossibile caricare i dati del font: \(fontFileURL.lastPathComponent)")
+            }
+            
+            guard let provider = CGDataProvider(data: fontData as CFData) else {
+                fatalError("Impossibile creare il provider dei dati del font: \(fontFileURL.lastPathComponent)")
+            }
+            
+            guard let font = CGFont(provider) else {
+                fatalError("Impossibile creare il font: \(fontFileURL.lastPathComponent)")
+            }
+            
+            CTFontManagerRegisterGraphicsFont(font, nil)
+        }
+    }
+    
 }
