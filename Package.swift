@@ -1,23 +1,43 @@
-// swift-tools-version: 5.9
+// swift-tools-version:5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
     name: "Maypay",
+    platforms: [
+        .iOS(.v13)
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Maypay",
-            targets: ["Maypay"]),
+            targets: ["Maypay"]
+        ),
+        .library(
+            name: "MaypaySwiftUI",
+            targets: ["MaypaySwiftUI"]
+        ),
+        .library(
+            name: "MaypayUIKit",
+            targets: ["MaypayUIKit"]
+        )
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "Maypay"),
+            name: "Maypay",
+            dependencies: []
+        ),
+        .target(
+            name: "MaypaySwiftUI",
+            dependencies: ["Maypay"]
+        ),
+        .target(
+            name: "MaypayUIKit",
+            dependencies: ["Maypay"]
+        ),
         .testTarget(
             name: "MaypayTests",
-            dependencies: ["Maypay"]),
+            dependencies: ["Maypay", "MaypaySwiftUI", "MaypayUIKit"]
+        )
     ]
 )
