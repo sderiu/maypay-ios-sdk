@@ -16,7 +16,7 @@ public struct MaypayButtonBox: View {
         self.amount = formatAmount(amount: amount)
         self.requestId = requestId
 
-        registerFonts()
+        try registerFonts()
 
     }
     

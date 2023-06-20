@@ -16,7 +16,7 @@ public class MaypayButton: UIButton {
         self.bundle = getBundleModule()
         super.init(frame: .zero)
         commonInit()
-        registerFonts()
+//        registerFonts()
     }
     
     required init?(coder: NSCoder) {
@@ -37,7 +37,7 @@ public class MaypayButton: UIButton {
 
         let logoImage = UIImage(named: "maypay-logo", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
         let resizedImage = logoImage?.imageResized(to: CGSize(width: 40, height: 40))
-        imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
+        imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 10)
         setImage(resizedImage, for: .normal)
         
         setTitle("Vinci o paga", for: .normal)

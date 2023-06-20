@@ -33,27 +33,37 @@ public func openMaypay(requestId: String) {
 }
 
 public func registerFonts() {
-    
-    registerFont(bundle: .module, fontName: "MavenPro-Medium", fontExtension: "ttf")
-    registerFont(bundle: .module, fontName: "MavenPro-Regular", fontExtension: "ttf")
-    registerFont(bundle: .module, fontName: "Giorgio", fontExtension: "ttf")
-
+    do{
+        try registerFont(named: "MavenPro-Medium")
+        try registerFont(named: "MavenPro-Regular")
+        try registerFont(named: "Giorgio")
+    }
+    catch{
+        print("Cannot register fonts")
+    }
 }
 
-fileprivate func registerFont(bundle: Bundle, fontName: String, fontExtension: String) {
-    
-    guard let fontURL = bundle.url(forResource: fontName, withExtension: fontExtension),
-          let fontDataProvider = CGDataProvider(url: fontURL as CFURL),
-          let font = CGFont(fontDataProvider) else {
-        fatalError("Couldn't create font from data")
+func registerFont(named name: String) throws {
+    guard let asset = NSDataAsset(name: "Fonts/\(name)", bundle: Bundle.module) else{
+        fatalError("Cannot find asset")
+    }
+    guard let provider = CGDataProvider(data: asset.data as NSData) else{
+        fatalError("Cannot create provider")
+    }
+    guard let font = CGFont(provider) else {
+        fatalError("Cannot create font")
     }
     
-    var error: Unmanaged<CFError>?
+    let registered = CTFontManagerRegisterGraphicsFont(font, nil)
     
-    CTFontManagerRegisterGraphicsFont(font, &error)
+    print(registered)
 }
 
 
 public func getBundleModule() -> Bundle {
     return Bundle.module
+}
+
+public enum FontError: Swift.Error {
+   case failedToRegisterFont
 }
