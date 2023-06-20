@@ -13,24 +13,29 @@ public class MaypayButton: UIButton {
     
     public init(requestId: String) {
         self.requestId = requestId
+        self.bundle = getBundleModule()
         super.init(frame: .zero)
+        commonInit()
+        registerFonts()
     }
     
     required init?(coder: NSCoder) {
         self.requestId = ""
+        self.bundle = getBundleModule()
         super.init(coder: coder)
         commonInit()
         registerFonts()
     }
     
     var requestId: String
+    var bundle: Bundle
     
     
     private func commonInit() {
                 
         addTarget(self, action: #selector(openMaypay), for: .touchUpInside)
-    
-        let logoImage = UIImage(named: "maypay-logo")?.withRenderingMode(.alwaysOriginal)
+
+        let logoImage = UIImage(named: "maypay-logo", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
         let resizedImage = logoImage?.imageResized(to: CGSize(width: 40, height: 40))
         imageEdgeInsets = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
         setImage(resizedImage, for: .normal)

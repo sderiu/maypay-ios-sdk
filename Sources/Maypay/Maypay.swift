@@ -52,3 +52,8 @@ fileprivate func registerFont(bundle: Bundle, fontName: String, fontExtension: S
     
     CTFontManagerRegisterGraphicsFont(font, &error)
 }
+
+
+public func getBundleModule() -> Bundle {
+    return Bundle.module
+}
