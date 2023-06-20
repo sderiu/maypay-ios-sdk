@@ -61,6 +61,7 @@ func registerFont(named name: String) throws {
 
 
 public func getBundleModule() -> Bundle {
+    
     return Bundle.module
 }
 

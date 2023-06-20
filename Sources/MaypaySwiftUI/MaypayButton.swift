@@ -28,7 +28,7 @@ public struct MaypayButton: View {
             openMaypay(requestId: self.requestId)
         }, label: {
             HStack(alignment: .center){
-                Image("maypay-logo")
+                Image("maypay-logo", bundle: Maypay.getBundleModule())
                     .resizable()
                     .frame(width: 40, height: 40)
                 Text("Vinci o paga")

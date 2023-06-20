@@ -29,7 +29,7 @@ public struct MaypayButtonBox: View {
             Text("Totale: \(amount) €" )
                 .font(.custom("MavenPro-Medium", size: 16))
             
-            Image("maypay-logo-png")
+            Image("maypay-logo-png", bundle: Maypay.getBundleModule())
                 .resizable()
                 .scaledToFit()
                 .frame(maxWidth: 190)
@@ -52,7 +52,7 @@ public struct MaypayButtonBox: View {
                 openMaypay(requestId: self.requestId)
             }, label: {
                 HStack(alignment: .center){
-                    Image("maypay-logo")
+                    Image("maypay-logo", bundle: Maypay.getBundleModule())
                         .resizable()
                         .frame(width: 40, height: 40)
                     Text("Vinci o paga")
