@@ -16,8 +16,6 @@ public class MaypayButton: UIButton {
     
     private var requestId: String
     
- 
-    
     // Inizializzatore personalizzato con requestId
     public init(requestId: String) {
         self.requestId = requestId
@@ -26,12 +24,14 @@ public class MaypayButton: UIButton {
         super.init(frame: CGRect(x: 0, y: 0, width: buttonWidth, height: buttonHeight))
         
         // Aggiungi l'azione al pulsante
-        addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
-        
+//        addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        adjustsImageWhenHighlighted = false
+
         // Configura l'immagine predefinita del pulsante
         let logoImage = UIImage(named: "maypay-logo", in: bundle, compatibleWith: nil)?.withRenderingMode(.alwaysOriginal)
         let resizedImage = logoImage?.imageResized(to: CGSize(width: 40, height: 40))
         setImage(resizedImage, for: .normal)
+        imageEdgeInsets = UIEdgeInsets(top: 0, left: -10, bottom: 0, right: 0)
         
         // Configura il testo predefinito del pulsante
         setTitle("Vinci o paga", for: .normal)
@@ -40,7 +40,7 @@ public class MaypayButton: UIButton {
         setTitleColor(.white, for: .normal)
         if UIFont.registerFont(bundle: bundle, fontName: "Giorgio", fontExtension: "ttf") {
             titleLabel?.font = UIFont(name: "Giorgio", size: 20)
-            titleEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 0, right: 0)
+            titleEdgeInsets = UIEdgeInsets(top: 4, left: 5, bottom: 0, right: 0)
         }
         
         contentEdgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -54,27 +54,35 @@ public class MaypayButton: UIButton {
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
         gradientLayer.cornerRadius = frame.height / 2
-        layer.insertSublayer(gradientLayer, at: 0)
-        
-        
-        // Aggiungi un overlay per l'immagine
-        let overlayView = UIView(frame: bounds)
-        overlayView.backgroundColor = .clear
-        let logoImageView = UIImageView(image: resizedImage)
-        logoImageView.frame = CGRect(x: 25, y: 10, width: 40, height: 40)
-        overlayView.addSubview(logoImageView)
-        imageView?.contentMode = .scaleAspectFit
-        imageView?.frame = overlayView.bounds
-        addSubview(overlayView)
-                
+        layer.insertSublayer(gradientLayer, below: imageView?.layer)
         
     }
-
+    
     
     required init?(coder aDecoder: NSCoder) {
         self.requestId = ""
         super.init(coder: aDecoder)
     }
+    
+    override public func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        animateOpacity(to: 0.2)
+    }
+    
+    override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        animateOpacity(to: 1.0)
+        if let touch = touches.first, bounds.contains(touch.location(in: self)) {
+            // Il tocco è terminato all'interno dei confini del pulsante
+            buttonTapped()
+        }
+    }
+    
+    private func animateOpacity(to opacity: CGFloat) {
+          UIView.animate(withDuration: 0.2) {
+              self.alpha = opacity
+          }
+      }
     
     // Funzione chiamata quando il pulsante viene premuto
     @objc private func buttonTapped() {
@@ -113,26 +121,26 @@ extension UIImage {
 
 extension UIFont {
     static func registerFont(bundle: Bundle, fontName: String, fontExtension: String) -> Bool {
-
+        
         guard let fontURL = bundle.url(forResource: fontName, withExtension: fontExtension) else {
             fatalError("Couldn't find font \(fontName)")
         }
-
+        
         guard let fontDataProvider = CGDataProvider(url: fontURL as CFURL) else {
             fatalError("Couldn't load data from the font \(fontName)")
         }
-
+        
         guard let font = CGFont(fontDataProvider) else {
             fatalError("Couldn't create font from data")
         }
-
+        
         var error: Unmanaged<CFError>?
         let success = CTFontManagerRegisterGraphicsFont(font, &error)
         guard success else {
             print("Error registering font: maybe it was already registered.")
             return false
         }
-
+        
         return true
     }
 }

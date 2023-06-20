@@ -44,13 +44,14 @@ public func registerFonts() {
 }
 
 func registerFont(named name: String) throws {
-    guard let asset = NSDataAsset(name: "Fonts/\(name)", bundle: Bundle.module) else{
-        fatalError("Cannot find asset")
+    guard let fontURL = Bundle.module.url(forResource: name, withExtension: "ttf") else {
+        fatalError("Couldn't find font \(name)")
     }
-    guard let provider = CGDataProvider(data: asset.data as NSData) else{
-        fatalError("Cannot create provider")
+
+    guard let fontDataProvider = CGDataProvider(url: fontURL as CFURL) else {
+        fatalError("Couldn't load data from the font \(name)")
     }
-    guard let font = CGFont(provider) else {
+    guard let font = CGFont(fontDataProvider) else {
         fatalError("Cannot create font")
     }
     
